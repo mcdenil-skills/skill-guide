@@ -20,7 +20,6 @@ import json
 import os
 import re
 import sys
-import glob
 from pathlib import Path
 
 HOME = Path.home()
@@ -92,11 +91,11 @@ def load_installed() -> dict:
 def load_catalog(markets: dict) -> dict:
     """(marketplace, plugin) -> {url, deeplink, ref, sha}  (настоящий источник плагина)"""
     out = {}
-    for f in glob.glob(str(PLUGIN_MARKETS / "*" / ".claude-plugin" / "marketplace.json")):
-        mp = f.split("/marketplaces/")[1].split("/")[0]
+    for f in PLUGIN_MARKETS.glob("*/.claude-plugin/marketplace.json"):
+        mp = f.parent.parent.name
         mp_url = markets.get(mp, "")
         try:
-            d = json.loads(Path(f).read_text())
+            d = json.loads(f.read_text(encoding="utf-8"))
         except Exception:
             continue
         for p in d.get("plugins", []):
