@@ -14,6 +14,8 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PY="$(command -v python3 || command -v python)"
 GSTACK="$HOME/.claude/skills/gstack"
 MARKETS="$HOME/.claude/plugins/marketplaces"
+# Windows: UTF-8 вместо системной cp1251 (см. update.sh).
+export PYTHONUTF8=1
 
 echo "== Skill-Guide: обновления =="
 "$PY" "$DIR/scripts/check-updates.py" || true
